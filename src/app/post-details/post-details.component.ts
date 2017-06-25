@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NativeWindow } from './../window';
 import { Post } from './../post';
+import { User } from './../user';
+import { Category } from './../category'
 
 @Component({
   templateUrl: './post-details.component.html',
@@ -13,6 +15,7 @@ export class PostDetailsComponent implements OnInit {
   post: Post;
 
   constructor(
+    private router: Router,
     private _activatedRoute: ActivatedRoute,
     @Inject(NativeWindow) private _window) { }
 
@@ -26,19 +29,27 @@ export class PostDetailsComponent implements OnInit {
   }
 
   /*---------------------------------------------------------------------------------------------------------------|
-   | ~~~ Red Path ~~~                                                                                              |
+   | ~~~ Red Path ~~~ | Done                                                                                       |
    |---------------------------------------------------------------------------------------------------------------|
    | Añade un manejador que navegue a la dirección correspondiente a los posts del autor indicado. Recuerda que    |
    | para hacer esto necesitas inyectar como dependencia el Router de la app. La ruta a navegar es '/posts/users', |
    | pasando como parámetro el identificador del autor.                                                            |
    |---------------------------------------------------------------------------------------------------------------*/
 
+  onUserSelect(): void {
+    this.router.navigate(['/posts/users', this.post.author.id]);
+  }
+
   /*--------------------------------------------------------------------------------------------------------------------|
-   | ~~~ Yellow Path ~~~                                                                                                |
+   | ~~~ Yellow Path ~~~ | Done                                                                                         |
    |--------------------------------------------------------------------------------------------------------------------|
    | Añade un manejador que navegue a la dirección correspondiente a los posts de la categoría indicada. Recuerda que   |
    | para hacer esto necesitas inyectar como dependencia el Router de la app. La ruta a navegar es '/posts/categories', |
    | pasando como parámetro el identificador de la categoría.                                                           |
    |--------------------------------------------------------------------------------------------------------------------*/
+
+  onCategoryClick(category: Category): void {
+    this.router.navigate(['/posts/categories', category.id]);
+  }
 
 }

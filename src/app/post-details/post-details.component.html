@@ -3,10 +3,10 @@
     <div class="avatar">
       <img [src]="post.author.avatar">
     </div>
-    <div class="author">
+    <div class="author" (click)="onUserSelect()">
       <!--
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-      | Red Path                                                        |
+      | Red Path | Done                                                 |
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
       | Un clic sobre el autor debería navegar a su colección de posts. |
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
@@ -14,12 +14,12 @@
       <span class="name blink-font">{{ post.author.name }}</span>
       <!--
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-      | Blue Path                                                                     |
+      | Blue Path | Done                                                              |
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
       | Una vez tengas creado el pipe FromNowPipe, úsalo con la fecha de publicación. |
       |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
       -->
-      <span class="date">{{ post.publicationDate }}</span>
+      <span class="date">{{ post.publicationDate | fromNow }}</span>
     </div>
   </div>
 </div>
@@ -31,11 +31,11 @@
   <div class="html-text" [innerHtml]="plainTextToHtml(post.body)"></div>
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-  | Yellow Path                                                              |
+  | Yellow Path | Done                                                       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Suscribe el componente CategoryBoxComponent al evento que hayas definido |
   | en él para notificar los clics sobre las categorías del post.            |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <category-box [categories]="post.categories"></category-box>
+  <category-box [categories]="post.categories" (categoryClick)="onCategoryClick($event)"></category-box>
 </div>

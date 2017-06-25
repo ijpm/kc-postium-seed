@@ -1,46 +1,64 @@
 <!--
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-| Purple Path                                                                                 |
+| Purple Path | Done                                                                          |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 | Crea una 'template reference variable' del formulario: quizá la necesites. Además, suscribe |
 | el formulario al evento correspondiente para hacer 'submit' del mismo: no olvides pasar la  |
 | referencia del formulario en él.                                                            |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 -->
-<form novalidate>
+<form #newPost="ngForm" (ngSubmit)="submitPost(newPost)">
+
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-  | Purple Path                                                                                     |
+  | Purple Path | Done                                                                              |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | El campo 'title' debe enlazarse al formulario a través de la directiva 'ngModel'. Recuerda usar |
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
+
   <input type="text"
          placeholder="Título"
-         class="u-full-width">
+         class="u-full-width"
+         ngModel
+         #title="ngModel"
+         name="title"
+         required>
+
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-  | Purple Path                                                                                     |
+  | Purple Path | Done                                                                              |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | El campo 'intro' debe enlazarse al formulario a través de la directiva 'ngModel'. Recuerda usar |
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
-  <textarea placeholder="Introduce tu historia"
+
+   <textarea placeholder="Introduce tu historia"
             class="u-full-width georgia-font"
-            autogrow></textarea>
+            autogrow
+            ngModel
+            #intro="ngModel"
+            name="intro"
+            required></textarea>
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-  | Purple Path                                                                                     |
+  | Purple Path | Done                                                                              |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | El campo 'body' debe enlazarse al formulario a través de la directiva 'ngModel'. Recuerda usar  |
   | el nombre que se ha definido en la entidad Post. Además, este campo debe ser obligatorio.       |
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
+
   <textarea placeholder="Cuenta tu historia"
             class="u-full-width georgia-font"
-            autogrow></textarea>
+            autogrow
+            ngModel
+            #body="ngModel"
+            name="body"
+            required></textarea>
+
   <div>
     <div>
       <label (click)="setScheduling(false)">
@@ -61,6 +79,7 @@
              [ngModel]="_nowDatetimeLocal">
     </div>
   </div>
+
   <!--
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   | Purple Path                                                              |
@@ -70,5 +89,26 @@
   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
   -->
   <button type="submit"
-          class="button-primary u-pull-right">Publicar</button>
+          class="button-primary u-pull-right"
+          [disabled]="!newPost.form.valid">Publicar</button>
 </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

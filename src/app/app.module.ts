@@ -6,11 +6,11 @@ import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 
 /*----------------------------------------------------------|
- | ~~~ Blue Path ~~~                                        |
+ | ~~~ Blue Path ~~~ | Done                                       |
  |----------------------------------------------------------|
  | Importa FromNowPipe para poder usarlo en este documento. |
  |----------------------------------------------------------*/
-
+import { FromNowPipe } from './from-now.pipe';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { AutoGrowDirective } from './auto-grow.directive';
@@ -43,7 +43,7 @@ import { SearchBoxComponent } from './search-box/search-box.component';
   ],
 
   /*-----------------------------------------------|
-   | ~~~ Blue Path ~~~                             |
+   | ~~~ Blue Path ~~~ | Done                      |
    |-----------------------------------------------|
    | No olvides declarar FromNowPipe en el módulo. |
    |-----------------------------------------------*/
@@ -61,7 +61,8 @@ import { SearchBoxComponent } from './search-box/search-box.component';
     PostsByCategoryComponent,
     PostsListComponent,
     PostsViewComponent,
-    SearchBoxComponent
+    SearchBoxComponent,
+    FromNowPipe
   ],
   providers: [
     BackendUriProvider,

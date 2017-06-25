@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 
@@ -16,7 +16,7 @@ export class PostService {
   getPosts(): Observable<Post[]> {
 
     /*----------------------------------------------------------------------------------------------|
-     | ~~~ Pink Path ~~~                                                                            |
+     | ~~~ Pink Path ~~~ | Done                                                                     |
      |----------------------------------------------------------------------------------------------|
      | Pide al servidor que te retorne los posts ordenados de más reciente a menos, teniendo en     |
      | cuenta su fecha de publicación. Filtra también aquellos que aún no están publicados, pues no |
@@ -31,14 +31,14 @@ export class PostService {
      |----------------------------------------------------------------------------------------------*/
 
     return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts?publicationDate_lte=${+ new Date()}&_sort=publicationDate&_order=DESC`)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
   }
 
   getUserPosts(id: number): Observable<Post[]> {
 
     /*----------------------------------------------------------------------------------------------|
-     | ~~~ Red Path ~~~                                                                             |
+     | ~~~ Red Path ~~~ | Done                                                                      |
      |----------------------------------------------------------------------------------------------|
      | Ahora mismo, esta función está obteniendo todos los posts existentes, y solo debería obtener |
      | aquellos correspondientes al autor indicado. Añade los parámetros de búsqueda oportunos para |
@@ -55,14 +55,14 @@ export class PostService {
      |----------------------------------------------------------------------------------------------*/
 
     return this._http
-      .get(`${this._backendUri}/posts`)
+      .get(`${this._backendUri}/posts?author.id=${id}&publicationDate_lte=${+ new Date()}&_sort=publicationDate&_order=DESC`)
       .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
   }
 
   getCategoryPosts(id: number): Observable<Post[]> {
 
     /*--------------------------------------------------------------------------------------------------|
-     | ~~~ Yellow Path ~~~                                                                              |
+     | ~~~ Yellow Path ~~~ | Done                                                                       |
      |--------------------------------------------------------------------------------------------------|
      | Ahora mismo, esta función está obteniendo todos los posts existentes, y solo debería obtener     |
      | aquellos correspondientes a la categoría indicada. Añade los parámetros de búsqueda oportunos    |
@@ -84,7 +84,19 @@ export class PostService {
 
     return this._http
       .get(`${this._backendUri}/posts`)
-      .map((response: Response): Post[] => Post.fromJsonToList(response.json()));
+      .map((response: Response): Post[] => Post.fromJsonToList(response.json()))
+      .map((posts: Post[]): Post[] => {
+        let result:Array<Post> = [];
+        for (let post of posts){
+          for (let category of post.categories){
+            if(category.id == id) {
+              result.push(post)
+            }
+          }
+        }
+        return result;
+      });
+
   }
 
   getPostDetails(id: number): Observable<Post> {
@@ -92,11 +104,13 @@ export class PostService {
       .get(`${this._backendUri}/posts/${id}`)
       .map((response: Response): Post => Post.fromJson(response.json()));
   }
+  
+  private headers = new Headers({'Content-Type': 'application/json'});
 
   createPost(post: Post): Observable<Post> {
 
     /*----------------------------------------------------------------------------------|
-     | ~~~ Purple Path ~~~                                                              |
+     | ~~~ Purple Path ~~~ | Done                                                       |
      |----------------------------------------------------------------------------------|
      | Utiliza el cliente HTTP para guardar en servidor el post indicado. La ruta sobre |
      | la cual tienes que hacer la petición POST es '/posts'. Recuerda que siempre que  |
@@ -105,7 +119,9 @@ export class PostService {
      | 'fromJson() para crar un nuevo objeto Post basado en la respuesta HTTP obtenida. |
      |----------------------------------------------------------------------------------*/
 
-    return null;
-  }
+    return this._http
+      .post(`${this._backendUri}/posts`, JSON.stringify(post), {headers: this.headers})
+      .map((response: Response): Post => Post.fromJson(response.json()));
+    }
 
 }
